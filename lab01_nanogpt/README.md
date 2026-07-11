@@ -19,12 +19,29 @@ This model (6 layers, 384-dim embeddings, ~10M parameters) would take hours on C
 
 ## Results
 
-| Model | Steps | Train loss | Val loss | Perplexity |
-|---|---|---|---|---|
-| Baseline (learned pos. embedding) | 5000 | — | — | — |
-| RoPE | 2000 | — | — | — |
+Trained on a Kaggle T4 (10.79M parameters baseline, 10.69M with RoPE — it drops the position embedding table).
 
-*(filled in after training — see the notebook)*
+| Model | Steps | Train loss | Val loss | Perplexity |
+| --- | --- | --- | --- | --- |
+| Baseline (learned pos. embedding) | 5000 | 0.87 | 1.55 | 4.73 |
+| RoPE | 2000 | 1.15 | 1.48 | 4.39 |
+
+RoPE reaches a *lower* validation loss in less than half the training steps. Not a fully fair comparison (different step counts), but a strong signal for why models like Mistral and Llama use it instead of learned position embeddings.
+
+![Training loss curve](loss_curve.gif)
+
+Sample output (baseline, temperature 0.8):
+
+```text
+What's her father? 'Be madline; I were come for't:
+What, sir, what you offend.
+
+GLOUCESTER:
+The curet beauty that fill'd at my career,
+Is nine mouths to course in court?
+```
+
+Not real Shakespeare, obviously — but it nails the dialogue format, character name headers, and line rhythm from nothing but 1MB of raw text and a next-character prediction objective.
 
 ## Stack
 
