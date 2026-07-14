@@ -7,3 +7,4 @@ imageio
 transformers
 accelerate
 bitsandbytes
+python-dotenv
