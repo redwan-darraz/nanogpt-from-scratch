@@ -5,168 +5,157 @@ Send the same prompt to three free LLM APIs in parallel — Mistral, Groq (Llama
 ## Usage
 
 ```bash
-llmplay "explique le RAG en 3 lignes"
-llmplay "raconte une histoire en 2 phrases" --temp 0.0 0.5 1.0 1.5 --model mistral
-llmplay "explique le RAG en 3 lignes" --judge
+llmplay "explain RAG in 3 lines"
+llmplay "tell a short story in 2 sentences" --temp 0.0 0.5 1.0 1.5 --model mistral
+llmplay "explain RAG in 3 lines" --judge
 ```
 
-## Output example — `llmplay "explique le RAG en 3 lignes"`
+## Output example — `llmplay "explain RAG in 3 lines"`
 
 ```text
 ┌────────────── Mistral ───────────────┐
-│ Le RAG (Retrieval-Augmented          │
-│ Generation) est une technique qui    │
-│ combine la recherche d'informations  │
-│ pertinentes (via un retriever) et    │
-│ la génération de texte (via un       │
-│ LLM), pour améliorer la précision    │
-│ des réponses en s'appuyant sur des   │
-│ données externes.                    │
+│ RAG (Retrieval-Augmented Generation) │
+│ combines a retrieval system with a   │
+│ generative AI model to improve       │
+│ responses by fetching relevant       │
+│ context from a knowledge base before │
+│ generating an answer. It reduces     │
+│ hallucinations by grounding outputs  │
+│ in retrieved data, making responses  │
+│ more accurate and reliable. This     │
+│ approach is widely used in chatbots, │
+│ search engines, and enterprise Q&A   │
+│ systems.                             │
 │                                      │
-│ Il réduit les hallucinations en      │
-│ puisant dans des sources fiables     │
-│ avant de formuler une réponse, tout  │
-│ en restant flexible grâce à          │
-│ l'adaptation du modèle.              │
-│                                      │
-│ Cette approche est utile pour les    │
-│ chatbots, la recherche               │
-│ d'informations ou les assistants     │
-│ spécialisés.                         │
-│                                      │
-│ 2056ms — 140 tokens —                │
+│ 1677ms — 98 tokens —                 │
 │ mistral-small-latest                 │
 └──────────────────────────────────────┘
 ┌──────────── Groq (Llama) ────────────┐
-│ Le RAG (Rouge, Ambre, Vert) est un   │
-│ système de codage des risques        │
-│ utilisé pour évaluer la criticité    │
-│ des problèmes. Il utilise des        │
-│ couleurs pour indiquer le niveau de  │
-│ risque : rouge pour les problèmes    │
-│ critiques, ambre pour les problèmes  │
-│ modérés et vert pour les problèmes   │
-│ mineurs. Ce système aide à prioriser │
-│ les tâches et les ressources en      │
-│ fonction du niveau de risque associé │
-│ à chaque problème.                   │
+│ RAG (Retrieval, Augment, Generate)   │
+│ is an AI framework that combines     │
+│ retrieval and generation techniques. │
+│ It retrieves relevant information    │
+│ from a database or knowledge graph,  │
+│ augments it with additional context, │
+│ and generates human-like responses.  │
+│ This approach enables more accurate  │
+│ and informative responses,           │
+│ especially for complex and           │
+│ open-ended questions.                │
 │                                      │
-│ 1091ms — 147 tokens —                │
+│ 976ms — 108 tokens —                 │
 │ llama-3.3-70b-versatile              │
 └──────────────────────────────────────┘
 ┌─────────────── Gemini ───────────────┐
-│ Le RAG (Retrieval-Augmented          │
-│ Generation) consiste à connecter un  │
-│ modèle d'IA à vos propres sources de │
-│ données privées.                     │
-│ Au lieu de se fier uniquement à sa   │
-│ mémoire, l'IA cherche d'abord les    │
-│ informations pertinentes dans vos    │
-│ documents.                           │
-│ Elle utilise ensuite ces éléments    │
-│ pour générer une réponse précise,    │
-│ factuelle et citée.                  │
+│ RAG (Retrieval-Augmented Generation) │
+│ connects a Large Language Model to   │
+│ your private or real-time data       │
+│ sources.                             │
+│ It retrieves relevant information    │
+│ from those documents before sending  │
+│ it to the model to generate an       │
+│ answer.                              │
+│ This process grounds the AI in       │
+│ facts, significantly reducing        │
+│ hallucinations and providing         │
+│ verifiable citations.                │
 │                                      │
-│ 732ms — 83 tokens —                  │
+│ 743ms — 71 tokens —                  │
 │ gemini-3.1-flash-lite                │
 └──────────────────────────────────────┘
 ```
 
-Groq/Llama confused "RAG" with an unrelated project-management color code (Red/Amber/Green) — reproducibly, across multiple runs — while Mistral and Gemini both correctly explained Retrieval-Augmented Generation. Same prompt, three different outcomes: exactly the kind of gap this tool is built to expose before committing to a model.
+All three get the core idea right here, with different framing — Mistral leans on concrete use cases, Groq slightly misexpands the acronym ("Retrieval, Augment, Generate" instead of "Retrieval-Augmented Generation") but explains the mechanism correctly, Gemini emphasizes grounding and citations. Small, real differences in emphasis and depth — exactly what this tool is built to surface before committing to a model.
 
 ## `--temp` — same model, four temperatures
 
-`llmplay "raconte une histoire en 2 phrases" --temp 0.0 0.5 1.0 1.5` on Mistral:
+`llmplay "tell a short story in 2 sentences" --temp 0.0 0.5 1.0 1.5` on Mistral:
 
 ```text
 ┌───────── temperature = 0.0 ──────────┐
-│ Le Gardien des Ombres                │
+│ The old lighthouse keeper swore he   │
+│ saw a ghost ship every full moon,    │
+│ its tattered sails glowing with an   │
+│ eerie light. One night, as he raised │
+│ his lantern to guide it safely past  │
+│ the rocks, the ghostly vessel        │
+│ dissolved into mist—and in its place │
+│ stood his long-lost brother, holding │
+│ the same lantern he'd carried        │
+│ decades ago.                         │
 │                                      │
-│ Chaque nuit, Elias entendait un      │
-│ murmure derrière sa porte, mais      │
-│ quand il l'ouvrait, il ne trouvait   │
-│ que son chat endormi sur le          │
-│ paillasson. Un soir, le chuchotement │
-│ se transforma en une voix familière  │
-│ : "Tu as oublié de me rendre mon     │
-│ livre…" — c'était sa sœur, disparue  │
-│ dix ans plus tôt.                    │
-│                                      │
-│ 2437ms — 111 tokens                  │
+│ 2272ms — 95 tokens                   │
 └──────────────────────────────────────┘
 ┌───────── temperature = 0.5 ──────────┐
-│ Le dernier souffle de l'arbre        │
+│ The old lighthouse keeper swore he   │
+│ saw a ghost ship every full moon,    │
+│ its tattered sails glowing with      │
+│ eerie green light. One night, he     │
+│ finally climbed aboard—only to       │
+│ discover the ship was his own        │
+│ reflection in a shattered mirror     │
+│ left behind by a long-lost sailor.   │
 │                                      │
-│ Sous la lune pâle, un vieux chêne    │
-│ murmura à l'oreille de la fillette   │
-│ qui s'endormait contre son tronc :   │
-│ "Je te donne mes feuilles pour tes   │
-│ rêves, mais garde-toi des ombres qui │
-│ dansent entre mes branches." Au      │
-│ matin, elle trouva ses cheveux       │
-│ couverts d'or, et l'arbre,           │
-│ silencieux, n'était plus qu'un tas   │
-│ de cendres.                          │
-│                                      │
-│ 1991ms — 116 tokens                  │
+│ 1559ms — 82 tokens                   │
 └──────────────────────────────────────┘
 ┌───────── temperature = 1.0 ──────────┐
-│ Le Gardien des Ombres                │
+│ The old lighthouse keeper swore he'd │
+│ never leave his post—until one       │
+│ stormy night, a child's laughter     │
+│ echoed up the spiral stairs,         │
+│ beckoning him toward a mystery older │
+│ than the sea itself. By dawn, the    │
+│ keeper was gone, and in his place    │
+│ stood a figure with saltwater in     │
+│ their veins, watching the waves roll │
+│ in with eyes that had seen the       │
+│ future.                              │
 │                                      │
-│ Dès que la lune se levait, Elias     │
-│ disparaissait dans la forêt          │
-│ interdite, où les arbres             │
-│ chuchotaient des formules            │
-│ oubliées—sauf cette nuit-là, où il   │
-│ découvrit que la seule ombre qui ne  │
-│ bougeait pas était la sienne,        │
-│ reflétée par quelque chose… autre.   │
-│ En courant vers le village, il       │
-│ comprit trop tard que l'ombre        │
-│ l'avait déjà remplacé.               │
-│                                      │
-│ 1630ms — 119 tokens                  │
+│ 1335ms — 101 tokens                  │
 └──────────────────────────────────────┘
 ┌───────── temperature = 1.5 ──────────┐
-│ La dernière lue m'observa avec des   │
-│ yeux dorés avant de disparaitre dans │
-│ la nuit touffue.                     │
-│ Désormais, chaque rayon de lune      │
-│ 唤queur相信 fils chien                │
-│ m'accompagn значај toujours traites  │
-│ elles sp, 'llling VI/ch2 Sect. LS    │
-│ Raptor/Chleur区 DK EulOT BOO         │
-│ must(await gelang.callback           │
-│ OutstandingProf... CongregDigiteux    │
-│ HardDu Павел Insp/check              │
-│ Fasah重命ÉselFund учуєlov прой       │
-│ Beatrice ler 負ùÈ dort.. Alice 향해. │
+│ Michel struck gold hammering random  │
+│ chimes except for Congol's           │
+│ broBundle. retirada cattle ser trava │
+│ com obtimum delivery letolithic      │
+│ starts tool rods afford piloto       │
+│ Wyge ayudé qué política terceroquest │
+│ repartovaly hallwayziJoilo surrogate │
+│ ele squeeze verts visni gratitude    │
+│ arena seam jurid fiecare responde    │
+│ directly cream mediario périphrá     │
+│ unvalid descendre Kabaut             │
+│ backbone.work rock persist dell el   │
+│ Roch enam?' καριobu ptrister musul   │
+│ kay bitten left bed sobie约 CVs      │
+│ 없었며 سُکه什've de آم Venetiaizam    │
+│ Kol FuoaGap-F solarrom adapt alguien │
+│ fearsn mundoahan erupt seven tob     │
+│ lov                                  │
 │                                      │
-│ 1840ms — 133 tokens                  │
+│ 2257ms — 145 tokens                  │
 └──────────────────────────────────────┘
 ```
 
-Temperature 1.5 doesn't just get "more creative" — it collapses into a mix of Chinese, Korean, Russian, Hebrew and stray code fragments mid-sentence. A real, reproducible illustration of why cranking temperature isn't a free lunch: the same softmax-sampling mechanism that adds variety also opens the door to complete incoherence once it's stretched too far.
+The first three temperatures tell a coherent, atmospheric two-sentence story with the same lighthouse-keeper premise, gradually adding more unusual imagery. At 1.5 it completely disintegrates into a mix of English, Spanish, Portuguese, Korean, Greek, Arabic and Romanian fragments with no coherent meaning left. A real, reproducible illustration of the temperature/coherence trade-off — the same softmax-sampling mechanism that adds variety also opens the door to total incoherence once stretched too far.
 
 ## `--judge` — a fourth model picks a winner
 
-`llmplay "explique le RAG en 3 lignes" --judge` — Mistral Large (deliberately a different, larger model than the one competing) reads all three responses and picks a winner with a rationale:
+`llmplay "explain RAG in 3 lines" --judge` — Mistral Large (deliberately a different, larger model than the one competing) reads all three responses and picks a winner with a rationale:
 
 ```text
 ┌─────────────────────── Judge verdict — Mistral Large ───────────────────────┐
-│ Response 1 (Mistral) est la meilleure.                                      │
-│                                                                              │
-│ Elle explique clairement et précisément le RAG (Retrieval-Augmented         │
-│ Generation) en trois lignes, en couvrant ses deux étapes clés (recherche    │
-│ + génération) et ses avantages (réduction des hallucinations, sources       │
-│ fiables). Les réponses 2 et 3 sont soit hors-sujet (Groq confond avec un    │
-│ autre acronyme), soit moins complète (Gemini omet des détails techniques    │
-│ comme la base de connaissances). Mistral offre un équilibre parfait entre   │
-│ concision et exhaustivité.                                                  │
+│ Response 1 (Mistral) is the best. It clearly and concisely explains RAG's   │
+│ core mechanism (retrieval + generation), highlights its key benefit         │
+│ (reducing hallucinations), and provides a practical example (knowledge      │
+│ base) without unnecessary jargon. The structure is direct, informative,     │
+│ and easy to understand, making it the most effective of the three. While    │
+│ the others are accurate, they either lack specificity (Response 2) or       │
+│ overcomplicate the explanation (Response 3).                                │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-The judge caught the Groq mix-up entirely on its own, without being told which response was wrong.
+The judge gives a substantive, specific rationale rather than a generic "they're all fine" — useful signal when deciding which model to trust for a given task.
 
 ## Real usage
 
