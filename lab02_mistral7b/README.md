@@ -44,3 +44,7 @@ Full outputs, architecture dump, and the parameter-count derivation are in [`mis
 ## Stack
 
 Python 3.11 · PyTorch · transformers · bitsandbytes (4-bit quantization)
+
+## Recruiter demo
+
+Print `model.model.layers[0]` live, point at `k_proj`/`v_proj` outputting 1024 instead of 4096, and explain grouped-query attention in one sentence. Show the temperature comparison and explain why greedy decoding loops.

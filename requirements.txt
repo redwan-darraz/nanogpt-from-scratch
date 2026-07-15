@@ -8,3 +8,7 @@ transformers
 accelerate
 bitsandbytes
 python-dotenv
+mistralai
+groq
+google-genai
+rich
